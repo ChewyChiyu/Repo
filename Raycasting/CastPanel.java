@@ -35,7 +35,7 @@ public class CastPanel extends JPanel{
 									  {1,0,0,0,0,0,0,0,0,1},
 									  {1,1,1,1,1,1,1,1,1,1}};
 	private int mapWidth = 10, mapHeight = 10;
-	private double x = 5, y = 5, xDir = 1, yDir = 0, xPlane = 0, yPlane = .66;
+	private double x = 5, y = 5, xDir = -1, yDir = 0, xPlane = 0, yPlane = -.66;
 	private double mSpeed = 0.05, rSpeed = 0.02;
 	public CastPanel(){
 		load();
@@ -66,19 +66,19 @@ public class CastPanel extends JPanel{
 				}
 				if(wPress){
 					if(map[(int)(x + xDir * mSpeed)][(int)y] == 0) {
-						x+=xDir*mSpeed;
+						x+=(xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4))*mSpeed;
 					}
 					if(map[(int)x][(int)(y + yDir * mSpeed)] == 0){
-						y+=yDir*mSpeed;
+						y+=(xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4))*mSpeed;
 					}
 
 				}
 				if(sPress){
 					if(map[(int)(x - xDir * mSpeed)][(int)y] == 0) {
-						x-=xDir*mSpeed;
+						x-=(xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4))*mSpeed;
 					}
 					if(map[(int)x][(int)(y - yDir * mSpeed)] == 0){
-						y-=yDir*mSpeed;
+						y-=(xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4))*mSpeed;
 					}
 
 				}
