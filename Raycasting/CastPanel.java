@@ -65,26 +65,46 @@ public class CastPanel extends JPanel{
 					yPlane=iXPlane*Math.sin(rSpeed) + yPlane*Math.cos(rSpeed);
 				}
 				if(wPress){
-					if(map[(int)(x + xDir * mSpeed)][(int)y] == 0) {
-						x+=(xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4))*mSpeed;
+					double deltaX = 0;
+					double deltaY = 0;
+					deltaX=xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4);
+					deltaY=xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4);
+					if(map[(int)(x + deltaX * mSpeed)][(int)y] == 0) {
+						x+=deltaX*mSpeed;
 					}
-					if(map[(int)x][(int)(y + yDir * mSpeed)] == 0){
-						y+=(xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4))*mSpeed;
+					if(map[(int)x][(int)(y + deltaY * mSpeed)] == 0){
+						y+=deltaY*mSpeed;
 					}
 
 				}
 				if(sPress){
-					if(map[(int)(x - xDir * mSpeed)][(int)y] == 0) {
-						x-=(xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4))*mSpeed;
+				
+					double deltaX = 0;
+					double deltaY = 0;
+					deltaX=xDir*Math.cos(Math.PI/4) - yDir*Math.sin(Math.PI/4);
+					deltaY=xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4);
+					if(map[(int)(x - deltaX * mSpeed)][(int)y] == 0) {
+						x-=deltaX*mSpeed;
 					}
-					if(map[(int)x][(int)(y - yDir * mSpeed)] == 0){
-						y-=(xDir*Math.sin(Math.PI/4) + yDir*Math.cos(Math.PI/4))*mSpeed;
+					if(map[(int)x][(int)(y - deltaY * mSpeed)] == 0){
+						y-=deltaY*mSpeed;
 					}
 
 				}
 
+				//clear canvas
 				gCanvas.setColor(Color.WHITE);
 				gCanvas.fillRect(0,0,windowWidth,windowHeight);
+
+				//sky and ground
+				for(int row = windowHeight/2; row >=0; row--){
+					gCanvas.setColor(ColorGradient.getGrad(new Color[]{Color.WHITE,Color.BLUE},row,0,windowHeight/2));
+					gCanvas.fillRect(0,row,windowWidth,1);
+				}
+				for(int row = windowHeight/2; row < windowHeight; row++){
+					gCanvas.setColor(ColorGradient.getGrad(new Color[]{Color.BLACK,Color.GREEN},row,windowHeight/2,windowHeight));
+					gCanvas.fillRect(0,row,windowWidth,1);
+				}
 
 				//raycast algorthim
 				for(int col = 0; col < windowWidth; col++){
@@ -143,9 +163,8 @@ public class CastPanel extends JPanel{
 		  		  		dEnd = windowHeight - 1;
 		  		  	} 
 		  		  	if(hit==1)
-		  		  		gCanvas.setColor(ColorGradient.getGrad(new Color[]{new Color(100,100,100),Color.BLACK},normal,0,mapWidth));
-					if(hit==2)
-						gCanvas.setColor(ColorGradient.getGrad(new Color[]{new Color(173,216,230),Color.BLUE},normal,0,mapWidth));
+		  		  		gCanvas.setColor(ColorGradient.getGrad(new Color[]{new Color(200,200,200),Color.BLACK},normal,0,mapWidth));
+				
 					gCanvas.drawLine(col,dStart,col,dEnd);
 
 					if(hit==2){
@@ -163,7 +182,6 @@ public class CastPanel extends JPanel{
 
 
 				repaint();
-
 
 				Thread.sleep(sleepTime);
 			}catch(Exception e){ e.printStackTrace();}
@@ -290,6 +308,7 @@ public class CastPanel extends JPanel{
 		}catch(Exception e){}
 		return null;
 	}
+
 	public static void main(String[] args){
 		new CastPanel();
 	}

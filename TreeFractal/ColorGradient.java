@@ -3,9 +3,6 @@ public class ColorGradient{
 
 	public static Color getGrad(Color[] colors, double x, double xMin, double xMax)
 	{
-		x-=xMin;
-		xMax-= xMin;
-		xMin = 0;
 		if(colors.length==0) return null; 
 		Color a,b;
 		int aIndex = 0;
