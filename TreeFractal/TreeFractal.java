@@ -51,7 +51,7 @@ public class TreeFractal extends JPanel{
 			newCanvas();
 			double xDir = 0;
 			double yDir = 1;
-			double l = 70, dL = 0.9;
+			double l = 120, dL = 0.8;
 			double thetaMin = -(Math.PI/3);
 			double thetaMax = (Math.PI/3);
 			double part = 2;
