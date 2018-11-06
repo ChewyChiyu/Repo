@@ -21,11 +21,11 @@ public class ColorGradientTester extends JPanel
 		JPanel back = new JPanel();
 		back.setPreferredSize(windowDim);
 		frame.add(back);
-		final int MIN = 0, MAX = 100;
+		final int MIN = 0, MAX = 10;
 		JSlider cX = new JSlider(JSlider.VERTICAL,MIN, MAX, 0);
 		cX.addChangeListener(e -> {
 			JSlider source = (JSlider)e.getSource();
-			c = (ColorGradient.getGrad(new Color[]{Color.RED,Color.BLUE,Color.RED,Color.BLUE,Color.RED,Color.BLUE,Color.RED,Color.BLUE},(double)source.getValue(),MIN,MAX));
+			c = (ColorGradient.getGrad(new Color[]{Color.BLUE,Color.RED},((double)source.getValue()-10)/(double)100,(MIN-10)/(double)100,(MAX-10)/(double)100));
 			repaint();
 		});
 		back.add(cX);;

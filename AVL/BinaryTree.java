@@ -71,24 +71,19 @@ public class BinaryTree{
 		boolean next = true;
 		Node b = root;
 		while(next){
-			if(a.val>=b.val){
-				if(b.equals(a)){
-					b.parent.right = null;
-					cycleRotations(b.parent);
-					next = false;
-				}
-				else{
-					b = b.right;
-				}
-			}else if(a.val<b.val){
-				if(b.equals(a)){
+			if(b.equals(a)){
+				if(b.parent.left.equals(a)){
 					b.parent.left = null;
-					cycleRotations(b.parent);
-					next = false;
+				}else{
+					b.parent.right = null;
 				}
-				else{
-					b = b.left;
-				}
+				cycleRotations(b.parent);
+				next = false;
+			}
+			if(a.val>=b.val){
+				b = b.right;
+			}else if(a.val<b.val){
+				b = b.left;
 			}
 		}
 	}
@@ -112,7 +107,10 @@ public class BinaryTree{
 			n.parent.right = n.right;
 			n.right = n.right.left;
 			n.parent.right.left = n;
-			root = a.right;
+			n = a.right;
+			n.parent = null;
+			root = n;
+			root.left.parent = root;
 		}
 	}
 
@@ -132,27 +130,33 @@ public class BinaryTree{
 			Node a = new Node(-1); // turn node
 			a.right = n;
 			n.parent = a;
-			n.parent.right = n.left;
+			n.parent.left = n.left;
 			n.left = n.left.right;
-			n.parent.right.right = n;
-			root = a.right;
+			n.parent.left.right = n;
+			n = a.left;
+			n.parent = null;
+			root = n;
+			root.right.parent = root;
 		}
 	}
 
 	public void verbose(Node n){
-		System.out.println(n);
-		if(n.left==null&&n.right==null){
-		    return;
+		if(n.right==null&&n.left==null){
+			System.out.println(n);
+			return;
+		}else if(n.right==null){
+			System.out.println(n);
+			verbose(n.left);
 		}else if(n.left==null){
 			verbose(n.right);
-		}else if(n.right==null){
-			verbose(n.left);
+			System.out.println(n);
+
 		}else{
 			verbose(n.right);
+			System.out.println(n);
 			verbose(n.left);
 		}
 	}
-
 
 	public int rHeight(Node n){
 		if(n.right==null){
@@ -169,15 +173,25 @@ public class BinaryTree{
 	}
 
 	public static void main(String[] args){
-		BinaryTree bt = new BinaryTree(10);
+		BinaryTree bt = new BinaryTree(new Node(10));
+		bt.insert(new Node(11));
+		bt.insert(new Node(0));
+		bt.insert(new Node(13));
+		bt.insert(new Node(22));
+		bt.insert(new Node(135));
+		bt.insert(new Node(16));
+		bt.insert(new Node(17));
+		bt.insert(new Node(18));
+		bt.insert(new Node(9));
+		bt.insert(new Node(-1));
+		bt.insert(new Node(7));
+		bt.insert(new Node(32));
+		bt.insert(new Node(5));
 		bt.insert(new Node(12));
-		Node n = new Node(13);
-		bt.insert(n);
-	
-
-		bt.verbose(bt.root);
-		System.out.println("test");
-		bt.delete(n);
+		bt.insert(new Node(3));
+		//Node d = new Node(23);
+		//bt.insert(d);
+		//bt.delete(d);
 		bt.verbose(bt.root);
 	}
 }
