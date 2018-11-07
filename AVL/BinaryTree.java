@@ -11,8 +11,9 @@ public class BinaryTree{
 		this.root = root;
 	}
 
-	public void insert(Node a){
+	public void insert(int i){
 		boolean next = true;
+		Node a = new Node(i);
 		Node b = root;
 		while(next){
 			if(a.val>=b.val){
@@ -36,6 +37,32 @@ public class BinaryTree{
 			}
 		}
 		cycleRotations(a);
+	}
+
+	public void delete(int i){
+		boolean next = true;
+		Node b = root;
+		while(next){
+			if(b.val==i){
+				if(b.parent.left.val==i){
+					b.parent.left = null;
+				}else{
+					b.parent.right = null;
+				}
+				cycleRotations(b.parent);
+				System.out.println(" - REMOVAL SUCCESSFUL - ");
+				next = false;
+			}
+			if(i>=b.val){
+				b = b.right;
+			}else if(i<b.val){
+				b = b.left;
+			}
+			if(b==null){
+				next = false;
+				System.out.println(" - ELEMENT NOT FOUND - ");
+			}
+		}
 	}
 
 	public void cycleRotations(Node a){
@@ -67,25 +94,25 @@ public class BinaryTree{
 			}
 	}
 
-	public void delete(Node a){
+	
+
+
+	public int atLevel(Node a){
 		boolean next = true;
 		Node b = root;
-		while(next){
+		int level = 0;
+		while(next&&b!=null){
 			if(b.equals(a)){
-				if(b.parent.left.equals(a)){
-					b.parent.left = null;
-				}else{
-					b.parent.right = null;
-				}
-				cycleRotations(b.parent);
-				next = false;
+				return level;
 			}
 			if(a.val>=b.val){
 				b = b.right;
 			}else if(a.val<b.val){
 				b = b.left;
 			}
+			level++;
 		}
+		return -1;
 	}
 
 	public void lRotate(Node n){
@@ -171,29 +198,10 @@ public class BinaryTree{
 		}
 		return Math.max(rHeight(n.left),lHeight(n.left)) + 1;
 	}
-
-	public static void main(String[] args){
-		BinaryTree bt = new BinaryTree(new Node(10));
-		bt.insert(new Node(11));
-		bt.insert(new Node(0));
-		bt.insert(new Node(13));
-		bt.insert(new Node(22));
-		bt.insert(new Node(135));
-		bt.insert(new Node(16));
-		bt.insert(new Node(17));
-		bt.insert(new Node(18));
-		bt.insert(new Node(9));
-		bt.insert(new Node(-1));
-		bt.insert(new Node(7));
-		bt.insert(new Node(32));
-		bt.insert(new Node(5));
-		bt.insert(new Node(12));
-		bt.insert(new Node(3));
-		//Node d = new Node(23);
-		//bt.insert(d);
-		//bt.delete(d);
-		bt.verbose(bt.root);
+	public int getHeight(){
+		return Math.max(rHeight(root),lHeight(root));
 	}
+
 }
 class Node{
 	public Node left, right, parent;
